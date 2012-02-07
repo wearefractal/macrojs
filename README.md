@@ -1,12 +1,12 @@
 ## Information
 
 <table>
-<tr> 
-<td>Package</td><td>APPNAME</td>
+<tr>
+<td>Package</td><td>macrojs</td>
 </tr>
 <tr>
 <td>Description</td>
-<td>NOTHING HERE YET</td>
+<td>Macros for nodejs</td>
 </tr>
 <tr>
 <td>Node Version</td>
@@ -17,12 +17,28 @@
 ## Usage
 
 ```coffee-script
-NOTHING HERE YET
+macros = require 'macros'
+macros.add 'lrequire', (path) -> return "require('./#{path}')"
+macros.add 'add', (numone, numtwo) -> return String(numone + numtwo)
+```
+
+will replace
+
+```javascript
+var config = lrequire('config');
+var result = add(1, 2);
+```
+
+with
+
+```javascript
+var config = require('./config');
+var result = 3;
 ```
 
 ## Examples
 
-You can view further examples in the [example folder.](https://github.com/wearefractal/APPNAME/tree/master/examples)
+You can view further examples in the [example folder.](https://github.com/wearefractal/macrojs/tree/master/examples)
 
 ## LICENSE
 
