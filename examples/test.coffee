@@ -15,6 +15,11 @@ macro.add 'debug', (node) ->
 macro.add 'topload', (path, node) -> "require('../#{path}')"
 macro.add 'lrequire', (path, node) -> "require('./#{path}')"
 macro.add 'add', (numone, numtwo, node) -> String numone + numtwo
-output = macro.run file
 
+# Test raw input
+output = macro.run file
 fs.writeFileSync outfile, output
+
+# Test require() override
+macro.register()
+require('./example.js');

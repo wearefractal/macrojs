@@ -16,6 +16,10 @@
 
 ## Usage
 
+### Defining macros
+
+You only need to define your macros and use register() once when your app starts
+
 ```coffee-script
 macros = require 'macros'
 macro.add 'debug', (node) ->
@@ -33,7 +37,7 @@ will replace
 ```javascript
 var appcfg = topload('config');
 var dbcfg = lrequire('db_config');
-var sum = add(1, 2);
+var sum = add(1, 3);
 debug();
 ```
 
@@ -42,11 +46,34 @@ with
 ```javascript
 var appcfg = require("../config");
 var dbcfg = require("./db_config");
-var sum = 3;
+var sum = 4;
 console.log("Debug at line 3");
 console.trace();
 ```
 
+### Raw input
+
+Pass in a string of JS, get out a string of transformed JS.
+
+```coffee-script
+macros = require 'macros'
+fs = require 'fs'
+# Define your macros here
+
+input = fs.readFileSync "coolinput.js"
+output = macros.run input
+fs.writefileSync output, "coolinput.out.js"
+```
+
+### Registering files
+
+All files loaded with require() will be passed through the macro transformer before being loaded.
+
+```coffee-script
+macros = require 'macros'
+macros.register()
+# Define your macros here
+```
 ## Examples
 
 You can view further examples in the [example folder.](https://github.com/wearefractal/macrojs/tree/master/examples)

@@ -1,9 +1,7 @@
-var appcfg = require("../config");
-
-var dbcfg = require("./db_config");
-
 var sum = 3;
 
-console.log("Debug at line 3");
+console.log(sum);
+
+console.log("Debug at line 4");
 
 console.trace();
