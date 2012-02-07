@@ -13,10 +13,9 @@ module.exports =
 
   run: (code) ->
     burrito code, (node) ->
-      console.log node.name
       if node.name is 'call' and macros[node.start.value]?
         # replace arg[arg.length-1] with burrito.deparse(arg) to pass true value.
         # good for code blocks  and functions but passes as string
         args = (arg[arg.length-1] for arg in node.value[1])
-        out = macros[node.start.value] args...
+        out = macros[node.start.value] args..., node.start
         node.wrap out

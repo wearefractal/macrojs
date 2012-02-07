@@ -18,22 +18,33 @@
 
 ```coffee-script
 macros = require 'macros'
-macros.add 'lrequire', (path) -> return "require('./#{path}')"
-macros.add 'add', (numone, numtwo) -> return String(numone + numtwo)
+macro.add 'debug', (node) ->
+  out = "console.log('Debug at line #{node.line}')\r\n"
+  out += "console.trace()"
+  return out
+
+macro.add 'topload', (path, node) -> "require('../#{path}')"
+macro.add 'lrequire', (path, node) -> "require('./#{path}')"
+macro.add 'add', (numone, numtwo, node) -> String numone + numtwo
 ```
 
 will replace
 
 ```javascript
-var config = lrequire('config');
-var result = add(1, 2);
+var appcfg = topload('config');
+var dbcfg = lrequire('db_config');
+var sum = add(1, 2);
+debug();
 ```
 
 with
 
 ```javascript
-var config = require('./config');
-var result = 3;
+var appcfg = require("../config");
+var dbcfg = require("./db_config");
+var sum = 3;
+console.log("Debug at line 3");
+console.trace();
 ```
 
 ## Examples
