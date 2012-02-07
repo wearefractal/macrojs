@@ -20,6 +20,7 @@ macro.add 'add', (numone, numtwo, node) -> String numone + numtwo
 output = macro.run file
 fs.writeFileSync outfile, output
 
+###
 # Test require() override
 macro.register()
 require('./example.js');

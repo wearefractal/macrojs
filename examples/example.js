@@ -1,5 +1,7 @@
-//var appcfg = topload('config');
-//var dbcfg = lrequire('db_config');
+var appcfg = topload('config');
+var dbcfg = lrequire('db_config');
+var coolmod = load('namespace.coolmod');
+
 var sum = add(1, 2);
 console.log(sum);
 debug();
