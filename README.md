@@ -21,7 +21,7 @@
 You only need to define your macros and use register() once when your app starts
 
 ```coffee-script
-macros = require 'macros'
+macros = require 'macro'
 macro.add 'debug', (node) ->
   out = "console.log('Debug at line #{node.line}')\r\n"
   out += "console.trace()"
@@ -56,7 +56,7 @@ console.trace();
 Pass in a string of JS, get out a string of transformed JS.
 
 ```coffee-script
-macros = require 'macros'
+macros = require 'macro'
 fs = require 'fs'
 # Define your macros here
 
@@ -70,7 +70,7 @@ fs.writefileSync output, "coolinput.out.js"
 All files loaded with require() will be passed through the macro transformer before being loaded.
 
 ```coffee-script
-macros = require 'macros'
+macros = require 'macro'
 macros.register()
 # Define your macros here
 ```
