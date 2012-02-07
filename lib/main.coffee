@@ -7,20 +7,6 @@ macros = {}
 add = (name, fn) -> macros[name] = fn
 remove = (name) -> delete macros[name]
 
-register = ->
-  if require.extensions
-    require.extensions['.coffee'] = (module, filename) ->
-      content = run cs.compile fs.readFileSync(filename, 'utf8'), {filename}
-      content = run content, filename
-      module._compile content, filename
-    require.extensions['.js'] = (module, filename) ->
-      content = fs.readFileSync(filename, 'utf8'), {filename}
-      content = run content, filename
-      module._compile content, filename
-  else if require.registerExtension
-    require.registerExtension '.coffee', (content) -> run cs.compile content
-    require.registerExtension '.js', (content) -> run content
-
 run = (code, filename) ->
   return code unless macros? and Object.keys(macros).length > 0
   burrito code, (node) ->
@@ -29,6 +15,20 @@ run = (code, filename) ->
       out = macros[node.start.value] args..., node.start
       node.filename = filename if filename?
       node.wrap out
+
+register = ->
+  if require.extensions
+    require.extensions['.coffee'] = (module, filename) ->
+      content = cs.compile fs.readFileSync(filename, 'utf8'), {filename}
+      content = run content, filename
+      module._compile content, filename
+    require.extensions['.js'] = (module, filename) ->
+      content = fs.readFileSync(filename, 'utf8')
+      content = run content, filename
+      module._compile content, filename
+  else if require.registerExtension
+    require.registerExtension '.coffee', (content) -> run cs.compile content
+    require.registerExtension '.js', (content) -> run content
 
 module.exports =
   add: add
