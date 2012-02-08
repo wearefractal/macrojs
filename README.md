@@ -22,10 +22,6 @@ You only need to define your macros and use register() once when your app starts
 
 ```coffee-script
 macro = require 'macro'
-macro.define 'debug', (node) ->
-  out = "console.log('Debug at line #{node.line}')\r\n"
-  out += "console.trace()"
-  return out
 
 macro.define 'debug', (node) ->
   out = "console.log('Debug at line #{node.line}');"
@@ -42,10 +38,21 @@ macro.define '/*', (comments, node) -> return "console.log('swaggin hard bro');"
 will replace
 
 ```javascript
+//Cool comment
 var appcfg = topload('config');
 var dbcfg = lrequire('db_config');
-var sum = add(1, 3);
+
+//#SWAG
+var sum = add(1, 2);
 debug();
+
+/* we swaggin
+   swag hard
+*/
+var coolfn = function () {
+  debug();
+};
+coolfn();
 ```
 
 with
@@ -53,9 +60,18 @@ with
 ```javascript
 var appcfg = require("../config");
 var dbcfg = require("./db_config");
-var sum = 4;
-console.log("Debug at line 3");
+
+console.log("we swaggin");
+var sum = 3;
+console.log("Debug at line 10");
 console.trace();
+
+console.log("swaggin hard bro");
+var coolfn = function() {
+    console.log("Debug at line 15");
+    console.trace();
+};
+coolfn();
 ```
 
 ### Registering files - .register()
