@@ -31,8 +31,10 @@ macro.define 'debug', (node) ->
 macro.define 'topload', (path, node) -> return "require('../#{path}');"
 macro.define 'lrequire', (path, node) ->  return "require('./#{path}');"
 macro.define 'add', (numone, numtwo, node) -> return String(numone + numtwo)
-macro.define '//', (comment, node) -> return "console.log('we swaggin');" if comment is '#SWAG'
-macro.define '/*', (comments, node) -> return "console.log('swaggin hard bro');" if comments[0] is 'we swaggin'
+macro.define '//', (comment, node) ->
+  return "console.log('we swaggin');" if comment is '#SWAG'
+macro.define '/*', (comments, node) ->
+  return "console.log('swaggin hard bro');" if comments[0] is 'we swaggin'
 ```
 
 will replace
