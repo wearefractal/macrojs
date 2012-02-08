@@ -16,7 +16,7 @@
 
 ## Usage
 
-### Defining macros - .define
+### Defining macros - .define()
 
 You only need to define your macros and use register() once when your app starts
 
