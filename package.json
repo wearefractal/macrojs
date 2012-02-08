@@ -1,7 +1,7 @@
 {
    "name":"macro",
    "description":"Macros for nodejs",
-   "version":"0.0.1",
+   "version":"0.0.2",
    "homepage":"http://github.com/wearefractal/macrojs",
    "repository":"git://github.com/wearefractal/macrojs.git",
    "author":"Fractal <contact@wearefractal.com> (http://wearefractal.com/)",

@@ -7,17 +7,19 @@ outfile = path.join __dirname, 'example.out.js'
 
 file = fs.readFileSync infile
 
-macro.add 'debug', (node) ->
-  out = "console.log('Debug at line #{node.line}')\r\n"
-  out += "console.trace()"
+macro.define 'debug', (node) ->
+  out = "console.log('Debug at line #{node.line}');"
+  out += "console.trace();"
   return out
 
-macro.add 'topload', (path, node) -> "require('../#{path}')"
-macro.add 'lrequire', (path, node) ->  "require('./#{path}')"
-macro.add 'add', (numone, numtwo, node) -> String numone + numtwo
+macro.define 'topload', (path, node) -> return "require('../#{path}');"
+macro.define 'lrequire', (path, node) ->  return "require('./#{path}');"
+macro.define 'add', (numone, numtwo, node) -> return "#{numone + numtwo};"
+macro.define '//', (comment, node) -> return "console.log('we swaggin');" if comment is '#SWAG'
+macro.define '/*', (comments, node) -> return "console.log('swaggin hard bro');" if comments[0] is 'we swaggin'
 
 # Test raw input
-output = macro.run file
+output = macro.process file
 fs.writeFileSync outfile, output
 
 

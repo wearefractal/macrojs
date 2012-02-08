@@ -16,20 +16,27 @@
 
 ## Usage
 
-### Defining macros
+### Defining macros - .define
 
 You only need to define your macros and use register() once when your app starts
 
 ```coffee-script
 macro = require 'macro'
-macro.add 'debug', (node) ->
+macro.define 'debug', (node) ->
   out = "console.log('Debug at line #{node.line}')\r\n"
   out += "console.trace()"
   return out
 
-macro.add 'topload', (path, node) -> "require('../#{path}')"
-macro.add 'lrequire', (path, node) -> "require('./#{path}')"
-macro.add 'add', (numone, numtwo, node) -> String numone + numtwo
+macro.define 'debug', (node) ->
+  out = "console.log('Debug at line #{node.line}');"
+  out += "console.trace();"
+  return out
+
+macro.define 'topload', (path, node) -> return "require('../#{path}');"
+macro.define 'lrequire', (path, node) ->  return "require('./#{path}');"
+macro.define 'add', (numone, numtwo, node) -> return String(numone + numtwo)
+macro.define '//', (comment, node) -> return "console.log('we swaggin');" if comment is '#SWAG'
+macro.define '/*', (comments, node) -> return "console.log('swaggin hard bro');" if comments[0] is 'we swaggin'
 ```
 
 will replace
@@ -51,9 +58,23 @@ console.log("Debug at line 3");
 console.trace();
 ```
 
-### Raw input
+### Registering files - .register()
+
+All files loaded with require() will be passed through the macro transformer before being loaded.
+
+This is what most people should be using.
+
+```coffee-script
+macro = require 'macro'
+macro.register()
+# Define your macros here
+```
+
+### Raw input - .process()
 
 Pass in a string of JS, get out a string of transformed JS.
+
+This is used behind the scenes with register() and only useful if you want to process your files at build-time.
 
 ```coffee-script
 macro = require 'macro'
@@ -61,19 +82,10 @@ fs = require 'fs'
 # Define your macros here
 
 input = fs.readFileSync "coolinput.js"
-output = macro.run input
+output = macro.process input
 fs.writefileSync output, "coolinput.out.js"
 ```
 
-### Registering files
-
-All files loaded with require() will be passed through the macro transformer before being loaded.
-
-```coffee-script
-macro = require 'macro'
-macro.register()
-# Define your macros here
-```
 ## Examples
 
 You can view further examples in the [example folder.](https://github.com/wearefractal/macrojs/tree/master/examples)
